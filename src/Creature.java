@@ -11,7 +11,7 @@ public abstract class Creature {
     protected final int maxDamage;
     protected Random random;
 
-    public Creature(int attack, int defense, int health, int minDamage, int maxDamage) {
+    public Creature(int attack, int defense, int health, int minDamage, int maxDamage) throws IllegalArgumentException {
         if (attack < MIN_ATTACK_DEFENSE_VALUE || attack > MAX_ATTACK_DEFENSE_VALUE) {
             throw new IllegalArgumentException("Attack is out of range");
         }
@@ -55,7 +55,7 @@ public abstract class Creature {
     }
 
     public void takeDamage(int damage) {
-        health = health - damage > 0 ? health - damage : 0;
+        health = Math.max(health - damage, 0);
     }
 
     public int getDefense() {
