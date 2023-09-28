@@ -7,28 +7,55 @@ public abstract class Creature {
     protected int attack;
     protected int defense;
     protected int health;
-    protected int damage;
+    protected final int minDamage;
+    protected final int maxDamage;
     protected Random random;
 
-    public Creature(int N, int M) {
-        if (N <= 0) {
-            throw new IllegalArgumentException("N must be greater than zero");
+    public Creature(int attack, int defense, int health, int minDamage, int maxDamage) {
+        if (attack < MIN_ATTACK_DEFENSE_VALUE || attack > MAX_ATTACK_DEFENSE_VALUE) {
+            throw new IllegalArgumentException("Attack is out of range");
         }
-        if (M <= 0) {
-            throw new IllegalArgumentException("M must be greater than zero");
+        if (defense < MIN_ATTACK_DEFENSE_VALUE || defense > MAX_ATTACK_DEFENSE_VALUE) {
+            throw new IllegalArgumentException("Defense is out of range");
         }
-        if (M >= N) {
-            throw new IllegalArgumentException("N must be greater than M");
+        if (health <= 0) {
+            throw new IllegalArgumentException("Health must be greater than zero");
+        }
+        if (minDamage <= 0) {
+            throw new IllegalArgumentException("Minimal damage must be greater than zero");
+        }
+        if (maxDamage <= 0) {
+            throw new IllegalArgumentException("Maximal damage must be greater than zero");
+        }
+        if (minDamage >= maxDamage) {
+            throw new IllegalArgumentException("Minimal damage must be smaller than maximal damage");
         }
         random = new Random();
-        attack = random.nextInt(MAX_ATTACK_DEFENSE_VALUE) + MIN_ATTACK_DEFENSE_VALUE;
-        defense = random.nextInt(MAX_ATTACK_DEFENSE_VALUE) + MIN_ATTACK_DEFENSE_VALUE;
-        damage = random.nextInt(N - M) + M;
-        health = random.nextInt(N + 1);
+        this.attack = attack;
+        this.defense = defense;
+        this.health = health;
+        this.minDamage = minDamage;
+        this.maxDamage = maxDamage;
     }
 
-    public void hit(Creature enemy) {
+    public boolean hit(Creature enemy) {
+        boolean success = false;
         int attackModifier = this.attack - enemy.getDefense() + 1;
+        int i = 0;
+        do {
+            int cast = this.random.nextInt(6) + 1;
+            if (cast >= 5) {
+                enemy.takeDamage(this.minDamage + this.random.nextInt(this.maxDamage - this.minDamage + 1));
+                success = true;
+                break;
+            }
+            i++;
+        } while(i < attackModifier);
+        return success;
+    }
+
+    public void takeDamage(int damage) {
+        health = health - damage > 0 ? health - damage : 0;
     }
 
     public int getDefense() {
