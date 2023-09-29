@@ -38,24 +38,28 @@ public abstract class Creature {
         this.maxDamage = maxDamage;
     }
 
-    public boolean hit(Creature enemy) {
-        boolean success = false;
+    public int hit(Creature enemy) {
+        int damage = 0;
         int attackModifier = this.attack - enemy.getDefense() + 1;
         int i = 0;
         do {
             int cast = this.random.nextInt(6) + 1;
             if (cast >= 5) {
-                enemy.takeDamage(this.minDamage + this.random.nextInt(this.maxDamage - this.minDamage + 1));
-                success = true;
+                damage = this.minDamage + this.random.nextInt(this.maxDamage - this.minDamage + 1);
+                enemy.takeDamage(damage);
                 break;
             }
             i++;
         } while(i < attackModifier);
-        return success;
+        return damage;
     }
 
     public void takeDamage(int damage) {
         health = Math.max(health - damage, 0);
+    }
+
+    public boolean isAlive() {
+        return health > 0;
     }
 
     public int getDefense() {
