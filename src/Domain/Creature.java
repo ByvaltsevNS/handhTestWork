@@ -1,3 +1,6 @@
+package Domain;
+
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Creature {
@@ -64,5 +67,27 @@ public abstract class Creature {
 
     public int getDefense() {
         return defense;
+    }
+
+    @Override
+    public String toString() {
+        return "attack = " + attack +
+                ", defense = " + defense +
+                ", health = " + health +
+                ", minDamage = " + minDamage +
+                ", maxDamage = " + maxDamage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Creature creature = (Creature) o;
+        return attack == creature.attack && defense == creature.defense && health == creature.health && minDamage == creature.minDamage && maxDamage == creature.maxDamage;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(attack, defense, health, minDamage, maxDamage);
     }
 }

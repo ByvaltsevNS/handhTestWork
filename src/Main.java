@@ -1,11 +1,15 @@
+import Domain.Creature;
+import Domain.Monster;
+import Domain.Player;
+
 public class Main {
     public static void main(String[] args) {
         Player player1;
-        Monster monster1;
+        Creature monster1;
         try {
             player1 = new Player(23, 20, 25, 5, 30);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Не удалось создать игрока по причине: " + e.getMessage());
             return;
         }
         System.out.println("Объект игрока успешно создан! Его параметры: ");
@@ -13,7 +17,7 @@ public class Main {
         try {
             monster1 = new Monster(25, 20, 40, 10, 20);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Не удалось создать монстра по причине: " + e.getMessage());
             return;
         }
         System.out.println("Объект монстра успешно создан! Его параметры: ");

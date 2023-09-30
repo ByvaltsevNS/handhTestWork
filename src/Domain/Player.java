@@ -1,3 +1,5 @@
+package Domain;
+
 public class Player extends Creature {
     public static final float MAX_HEAL_RATIO = 0.3f;
     private int healCounter = 4;
@@ -25,5 +27,13 @@ public class Player extends Creature {
 
     public boolean isGoodTimeToHeal() {
         return maxHealth - health >= healValue;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                ", healCounter = " + healCounter +
+                ", maxHealth = " + maxHealth +
+                ", healValue = " + healValue;
     }
 }
